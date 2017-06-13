@@ -17,9 +17,7 @@ public class InterviewController {
     @Autowired
     private InterviewService interviewService;
 
-    @RequestMapping(
-            value = "/{id}",
-            method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public ResponseEntity getInterview(@PathVariable Long id) {
         Interview interview = this.interviewService.getInteview(id);
         HttpStatus httpStatus
@@ -28,7 +26,7 @@ public class InterviewController {
         return new ResponseEntity(interview, httpStatus);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity createNewInterview(@RequestBody Interview interview) {
         this.interviewService.createNewInterview(interview);
         return new ResponseEntity(HttpStatus.CREATED);
