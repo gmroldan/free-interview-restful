@@ -20,7 +20,7 @@ public class InterviewRepositoryInMemory implements InterviewRepository {
     static {
         Interview myInterview = new Interview();
         myInterview.setId(counter++);
-        myInterview.setInterviewer(new Interviewer("Juan Perez"));
+        myInterview.setInterviewer(new Interviewer("Juan", "Perez"));
         myInterview.setDate(new Date());
 
         INTERVIEW_MAP.put(myInterview.getId(), myInterview);

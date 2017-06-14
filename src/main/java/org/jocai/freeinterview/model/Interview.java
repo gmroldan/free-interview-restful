@@ -1,15 +1,25 @@
 package org.jocai.freeinterview.model;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
- * Created by martin on 02/06/17.
+ * Created by Gerardo Martín Roldán on 02/06/17.
  */
+@Entity
 public class Interview {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne
     private Interviewer interviewer;
     private Date date;
-    private InterviewDetail detail;
+//    private InterviewDetail detail;
 
     /**
      * Class constructor.
@@ -51,11 +61,11 @@ public class Interview {
         this.date = date;
     }
 
-    public InterviewDetail getDetail() {
+    /*public InterviewDetail getDetail() {
         return detail;
     }
 
     public void setDetail(InterviewDetail detail) {
         this.detail = detail;
-    }
+    }*/
 }

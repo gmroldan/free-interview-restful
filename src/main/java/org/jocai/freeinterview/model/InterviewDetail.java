@@ -1,7 +1,9 @@
 package org.jocai.freeinterview.model;
 
+import javax.persistence.Entity;
+
 /**
- * Created by martin on 02/06/17.
+ * Created by Gerardo Martín Roldán on 02/06/17.
  */
 public class InterviewDetail {
     private String comments;
