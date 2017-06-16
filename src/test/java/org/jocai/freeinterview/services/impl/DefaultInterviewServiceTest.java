@@ -37,12 +37,12 @@ public class DefaultInterviewServiceTest {
     public void getInteview_SuccessfulOperation_IfEverythingGoesWell() throws Exception {
         Interview interview = new Interview();
 
-        when(this.interviewRepositoryMock.findById(1L)).thenReturn(interview);
+        when(this.interviewRepositoryMock.findOne(1L)).thenReturn(interview);
 
         Interview result = this.interviewService.getInteview(1L);
 
         assertEquals(interview, result);
-        verify(this.interviewRepositoryMock, times(1)).findById(1L);
+        verify(this.interviewRepositoryMock, times(1)).findOne(1L);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class DefaultInterviewServiceTest {
             this.interviewService.getInteview(null);
             fail();
         } catch (IllegalArgumentException e) {
-            verify(this.interviewRepositoryMock, times(0)).findById(anyLong());
+            verify(this.interviewRepositoryMock, times(0)).findOne(anyLong());
         }
     }
 
@@ -59,11 +59,11 @@ public class DefaultInterviewServiceTest {
     public void createNewInterview_SuccessfulOperation_IfEverythingGoesWell() throws Exception {
         Interview interview = new Interview();
 
-        doNothing().when(this.interviewRepositoryMock).insert(interview);
+        when(this.interviewRepositoryMock.save(interview)).thenReturn(interview);
 
         this.interviewService.createNewInterview(interview);
 
-        verify(this.interviewRepositoryMock, times(1)).insert(interview);
+        verify(this.interviewRepositoryMock, times(1)).save(interview);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class DefaultInterviewServiceTest {
             this.interviewService.createNewInterview(null);
             fail();
         } catch (IllegalArgumentException e) {
-            verify(this.interviewRepositoryMock, times(0)).insert(any(Interview.class));
+            verify(this.interviewRepositoryMock, times(0)).save(any(Interview.class));
         }
     }
 

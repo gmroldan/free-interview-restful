@@ -1,12 +1,11 @@
 package org.jocai.freeinterview.repository;
 
 import org.jocai.freeinterview.model.Interview;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * Created by martin on 02/06/17.
+ * Created by Gerardo Martín Roldán on 02/06/17.
  */
-public interface InterviewRepository {
-    Interview findById(Long id);
+public interface InterviewRepository extends CrudRepository<Interview, Long> {
 
-    void insert(Interview interview);
 }
