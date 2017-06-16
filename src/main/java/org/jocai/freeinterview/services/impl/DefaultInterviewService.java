@@ -22,7 +22,7 @@ public class DefaultInterviewService implements InterviewService {
     }
 
     @Override
-    public void createNewInterview(Interview interview) {
+    public void createNewInterview(final Interview interview) {
         Assert.notNull(interview, "The interview cannot be null.");
         this.interviewRepository.insert(interview);
     }
