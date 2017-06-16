@@ -1,12 +1,15 @@
 package org.jocai.freeinterview.services;
 
+import java.util.List;
 import org.jocai.freeinterview.model.Interview;
 
 /**
- * Created by martin on 02/06/17.
+ * Created by Gerardo Martín Roldán on 02/06/17.
  */
 public interface InterviewService {
     Interview getInteview(Long id);
+
+    List<Interview> getAllInterviews();
 
     void createNewInterview(Interview interview);
 }
