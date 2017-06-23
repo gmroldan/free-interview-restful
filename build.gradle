@@ -26,14 +26,26 @@ repositories {
 
 configurations {
     providedRuntime
+
+    all*.exclude module : 'spring-boot-starter-logging'
 }
 
 dependencies {
+    // web
     compile("org.springframework.boot:spring-boot-starter-web")
 
+    // db
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile('mysql:mysql-connector-java')
 
+    // logging
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.7'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: '2.7'
+
+    // testing
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
