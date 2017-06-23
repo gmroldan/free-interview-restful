@@ -31,6 +31,8 @@ public class DefaultInterviewerService implements InterviewerService {
 
     @Override
     public List<Interviewer> getAllInterviewers() {
+        LOGGER.info("Searching all the interviewers");
+
         return this.interviewerRepository.findAll();
     }
 }
