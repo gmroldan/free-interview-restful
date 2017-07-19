@@ -11,4 +11,5 @@ public interface InterviewRepository extends CrudRepository<Interview, Long> {
     @Override
     List<Interview> findAll();
 
+    List<Interview> findByInterviewer_Id(Long interviewerId);
 }

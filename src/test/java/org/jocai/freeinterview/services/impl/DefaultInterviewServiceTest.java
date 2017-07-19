@@ -1,5 +1,7 @@
 package org.jocai.freeinterview.services.impl;
 
+import java.util.Arrays;
+import java.util.List;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.repository.InterviewRepository;
 import org.junit.Before;
@@ -75,4 +77,27 @@ public class DefaultInterviewServiceTest {
         }
     }
 
+    @Test
+    public void getInteviews_SuccessfulOperation_IfEverythingGoesWell() throws Exception {
+        List<Interview> interviewList = Arrays.asList(new Interview(), new Interview());
+
+        when(this.interviewRepositoryMock.findByInterviewer_Id(1L)).thenReturn(interviewList);
+
+        List<Interview> result = this.interviewService.getInterviews(1L);
+
+        assertEquals(interviewList, result);
+        verify(this.interviewRepositoryMock, times(1)).findByInterviewer_Id(1L);
+    }
+
+    @Test
+    public void getInteviews_ThrowsIllegalArgumentException_IfInterviewerIdIsNull() throws Exception {
+        try {
+            this.interviewService.getInterviews(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            verify(this.interviewRepositoryMock, times(0)).findByInterviewer_Id(anyLong());
+        } catch (Exception e) {
+            fail();
+        }
+    }
 }

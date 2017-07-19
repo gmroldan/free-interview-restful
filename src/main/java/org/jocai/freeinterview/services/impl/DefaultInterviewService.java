@@ -36,6 +36,15 @@ public class DefaultInterviewService implements InterviewService {
     }
 
     @Override
+    public List<Interview> getInterviews(final Long interviewerId) {
+        Assert.notNull(interviewerId, "The id cannot be null.");
+
+        LOGGER.info("Searching all the interviews with InterviewerId=" + interviewerId);
+
+        return this.interviewRepository.findByInterviewer_Id(interviewerId);
+    }
+
+    @Override
     public void createNewInterview(final Interview interview) {
         Assert.notNull(interview, "The interview cannot be null.");
 
