@@ -36,6 +36,19 @@ public class Interview {
         this.interviewer = interviewer;
         this.date = date;
     }
+    /**
+     * Class constructor.
+     *
+     * @param id
+     * @param interviewer
+     * @param date
+     */
+    public Interview(Long id, Interviewer interviewer, Date date) {
+        this.id = id;
+        this.interviewer = interviewer;
+        this.date = date;
+    }
+
 
     public Long getId() {
         return id;
