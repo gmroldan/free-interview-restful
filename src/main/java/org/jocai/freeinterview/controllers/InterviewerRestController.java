@@ -1,7 +1,6 @@
 package org.jocai.freeinterview.controllers;
 
 import java.util.List;
-import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by Gerardo Martín Roldán on 16/06/17.
+ * Created by Gerardo Martín Roldán on 16/06/git17.
  */
 @RestController
 @RequestMapping(value = "/interviewers")
-public class InterviewerController {
+public class InterviewerRestController {
     @Autowired
     private InterviewerService interviewerService;
 
@@ -41,8 +40,4 @@ public class InterviewerController {
         return new ResponseEntity(interviewerList, httpStatus);
     }
 
-    @GetMapping(value = "/{id}/interviews")
-    public ResponseEntity getInterviews(@PathVariable Long id) {
-        List<Interview> interviewList = this.interviewerService.getInteviewer()
-    }
 }

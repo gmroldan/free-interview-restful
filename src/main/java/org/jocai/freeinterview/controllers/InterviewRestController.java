@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/interviews")
-public class InterviewController {
+public class InterviewRestController {
     @Autowired
     private InterviewService interviewService;
 

@@ -27,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by Gerardo Martín Roldán on 16/06/17.
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = InterviewerController.class, secure = false)
-public class InterviewerControllerTest {
+@WebMvcTest(value = InterviewerRestController.class, secure = false)
+public class InterviewerRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
