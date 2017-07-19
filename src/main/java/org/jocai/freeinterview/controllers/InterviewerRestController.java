@@ -1,6 +1,7 @@
 package org.jocai.freeinterview.controllers;
 
 import java.util.List;
+import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,15 @@ public class InterviewerController {
 
     @GetMapping
     public ResponseEntity getAllInterviewers() {
-        List<Interviewer> interviewerList =this.interviewerService.getAllInterviewers();
+        List<Interviewer> interviewerList = this.interviewerService.getAllInterviewers();
 
         HttpStatus httpStatus = !CollectionUtils.isEmpty(interviewerList) ? HttpStatus.OK : HttpStatus.NO_CONTENT;
 
         return new ResponseEntity(interviewerList, httpStatus);
     }
 
+    @GetMapping(value = "/{id}/interviews")
+    public ResponseEntity getInterviews(@PathVariable Long id) {
+        List<Interview> interviewList = this.interviewerService.getInteviewer()
+    }
 }
