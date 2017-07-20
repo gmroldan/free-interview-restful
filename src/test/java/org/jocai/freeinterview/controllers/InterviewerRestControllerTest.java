@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
+import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewService;
@@ -63,7 +65,7 @@ public class InterviewerRestControllerTest {
 
     @Test
     public void getInterviewer_ReturnsNoContentStatus_IfInterviewerDoesNotExists() throws Exception {
-        when(this.interviewerServiceMock.getInteviewer(1L)).thenReturn(null);
+        when(this.interviewerServiceMock.getInteviewer(1L)).thenThrow(NoResultFoundException.class);
 
         RequestBuilder requestBuilder
                 = MockMvcRequestBuilders
@@ -73,6 +75,21 @@ public class InterviewerRestControllerTest {
         ResultActions resultActions = this.mockMvc.perform(requestBuilder);
 
         resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void getInterviewer_ReturnsInternalServerError_IfServiceThrowsFreeInterviewServiceException()
+            throws Exception {
+        when(this.interviewerServiceMock.getInteviewer(1L)).thenThrow(FreeInterviewServiceException.class);
+
+        RequestBuilder requestBuilder
+                = MockMvcRequestBuilders
+                .get("/interviewers/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8);
+
+        ResultActions resultActions = this.mockMvc.perform(requestBuilder);
+
+        resultActions.andExpect(status().isInternalServerError());
     }
 
     @Test

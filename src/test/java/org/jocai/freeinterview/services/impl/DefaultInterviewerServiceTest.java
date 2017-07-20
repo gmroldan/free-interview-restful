@@ -1,5 +1,7 @@
 package org.jocai.freeinterview.services.impl;
 
+import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
+import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.repository.InterviewerRepository;
 import org.junit.Before;
@@ -7,6 +9,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.DataAccessException;
 
 
 import static org.junit.Assert.assertEquals;
@@ -50,6 +53,34 @@ public class DefaultInterviewerServiceTest {
             fail();
         } catch (IllegalArgumentException e) {
             verify(this.interviewerRepositoryMock, times(0)).findOne(anyLong());
+        }
+    }
+
+    @Test
+    public void getInteviewer_ThrowsFreeInterviewServiceException_IfDaoThrowsDataAccessException() throws Exception {
+        when(this.interviewerRepositoryMock.findOne(2L)).thenThrow(new DataAccessException("...") {});
+
+        try {
+            this.interviewerService.getInteviewer(2L);
+            fail("An exception should be thrown.");
+        } catch (FreeInterviewServiceException e) {
+            verify(this.interviewerRepositoryMock, times(1)).findOne(anyLong());
+        } catch (Exception e) {
+            fail("The exception should be an instance of FreeInterviewServiceException.");
+        }
+    }
+
+    @Test
+    public void getInteviewer_ThrowsNoResultFoundException_IfDaoReturnsNull() throws Exception {
+        when(this.interviewerRepositoryMock.findOne(2L)).thenReturn(null);
+
+        try {
+            this.interviewerService.getInteviewer(2L);
+            fail("An exception should be thrown.");
+        } catch (NoResultFoundException e) {
+            verify(this.interviewerRepositoryMock, times(1)).findOne(anyLong());
+        } catch (Exception e) {
+            fail("The exception should be an instance of NoResultFoundException.");
         }
     }
 

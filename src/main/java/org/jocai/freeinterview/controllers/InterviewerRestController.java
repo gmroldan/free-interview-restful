@@ -1,6 +1,8 @@
 package org.jocai.freeinterview.controllers;
 
 import java.util.List;
+import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
+import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewService;
@@ -27,7 +29,8 @@ public class InterviewerRestController {
     private InterviewService interviewService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity getInterviewer(@PathVariable Long id) {
+    public ResponseEntity getInterviewer(@PathVariable Long id)
+            throws NoResultFoundException, FreeInterviewServiceException {
         Interviewer interviewer = this.interviewerService.getInteviewer(id);
 
         HttpStatus httpStatus
