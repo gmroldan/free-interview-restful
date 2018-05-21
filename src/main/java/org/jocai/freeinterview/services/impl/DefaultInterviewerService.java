@@ -41,7 +41,7 @@ public class DefaultInterviewerService implements InterviewerService {
             throw new FreeInterviewServiceException("There was an error trying to find the interviewer with id = " + id, ex);
         }
 
-        return optionalInterviewer.orElseGet(null);
+        return optionalInterviewer.orElseThrow(() -> new NoResultFoundException("There is no interviewer with id = " + id));
     }
 
     @Override
