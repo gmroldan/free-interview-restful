@@ -24,3 +24,9 @@ insert into INTERVIEWER values (22, 'Mirabel', 'Raymen');
 insert into INTERVIEWER values (23, 'Clotilda', 'Erat');
 insert into INTERVIEWER values (24, 'Gale', 'Ivanishchev');
 insert into INTERVIEWER values (25, 'Perri', 'Haslock');
+
+-- Interviews
+--insert into INTERVIEW values (1, '24/05/2017', null);
+--insert into INTERVIEW values (2, 2, TIMESTAMP '2018-05-01');
+--insert into INTERVIEW values (3, '02/06/2017', 3);
+--insert into INTERVIEW values (4, '26/07/2017', null);
