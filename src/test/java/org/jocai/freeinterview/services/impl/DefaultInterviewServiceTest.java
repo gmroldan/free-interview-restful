@@ -2,6 +2,8 @@ package org.jocai.freeinterview.services.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.repository.InterviewRepository;
 import org.junit.Before;
@@ -37,13 +39,26 @@ public class DefaultInterviewServiceTest {
     @Test
     public void getInteview_SuccessfulOperation_IfEverythingGoesWell() throws Exception {
         Interview interview = new Interview();
+        Optional<Interview> optionalInterview = Optional.of(interview);
 
-        when(this.interviewRepositoryMock.findOne(1L)).thenReturn(interview);
+        when(this.interviewRepositoryMock.findById(1L)).thenReturn(optionalInterview);
 
         Interview result = this.interviewService.getInteview(1L);
 
         assertEquals(interview, result);
-        verify(this.interviewRepositoryMock, times(1)).findOne(1L);
+        verify(this.interviewRepositoryMock, times(1)).findById(1L);
+    }
+
+    @Test
+    public void getInteview_SuccessfulOperation_IfInterviewDoesNotExists() throws Exception {
+        Optional<Interview> optionalInterview = Optional.ofNullable(null);
+
+        when(this.interviewRepositoryMock.findById(1L)).thenReturn(optionalInterview);
+
+        Interview result = this.interviewService.getInteview(1L);
+
+        assertEquals(null, result);
+        verify(this.interviewRepositoryMock, times(1)).findById(1L);
     }
 
     @Test
@@ -52,7 +67,7 @@ public class DefaultInterviewServiceTest {
             this.interviewService.getInteview(null);
             fail();
         } catch (IllegalArgumentException e) {
-            verify(this.interviewRepositoryMock, times(0)).findOne(anyLong());
+            verify(this.interviewRepositoryMock, times(0)).findById(anyLong());
         }
     }
 

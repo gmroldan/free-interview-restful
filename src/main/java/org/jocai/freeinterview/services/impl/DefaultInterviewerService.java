@@ -1,6 +1,8 @@
 package org.jocai.freeinterview.services.impl;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
 import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interviewer;
@@ -30,21 +32,16 @@ public class DefaultInterviewerService implements InterviewerService {
 
         LOGGER.info("Searching interviewer with id " + id);
 
-        Interviewer interviewer = null;
+        Optional<Interviewer> optionalInterviewer = null;
 
         try {
-            interviewer = this.interviewerRepository.findOne(id);
+            optionalInterviewer = this.interviewerRepository.findById(id);
         } catch (DataAccessException ex) {
             LOGGER.error("There was an error trying to find the interviewer with id = " + id, ex);
             throw new FreeInterviewServiceException("There was an error trying to find the interviewer with id = " + id, ex);
         }
 
-        if (interviewer == null) {
-            LOGGER.warn("There is no interviewer with id = " + id);
-            throw new NoResultFoundException("There is no interviewer with id = " + id);
-        }
-
-        return interviewer;
+        return optionalInterviewer.orElseGet(null);
     }
 
     @Override

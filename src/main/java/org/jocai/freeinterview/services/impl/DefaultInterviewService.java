@@ -1,6 +1,8 @@
 package org.jocai.freeinterview.services.impl;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.repository.InterviewRepository;
 import org.jocai.freeinterview.services.InterviewService;
@@ -26,7 +28,9 @@ public class DefaultInterviewService implements InterviewService {
 
         LOGGER.info("Searching interview with id " + id);
 
-        return this.interviewRepository.findOne(id);
+        Optional<Interview> optionalInterview = this.interviewRepository.findById(id);
+
+        return  optionalInterview.orElseGet(null);
     }
 
     @Override
