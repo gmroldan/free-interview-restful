@@ -3,6 +3,7 @@ package org.jocai.freeinterview.services.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.repository.InterviewRepository;
 import org.jocai.freeinterview.services.InterviewService;
@@ -23,14 +24,14 @@ public class DefaultInterviewService implements InterviewService {
     private InterviewRepository interviewRepository;
 
     @Override
-    public Interview getInteview(final Long id) {
+    public Interview getInteview(final Long id) throws NoResultFoundException {
         Assert.notNull(id, "The id cannot be null.");
 
         LOGGER.info("Searching interview with id " + id);
 
         Optional<Interview> optionalInterview = this.interviewRepository.findById(id);
 
-        return  optionalInterview.orElseGet(null);
+        return optionalInterview.orElseThrow(() -> new NoResultFoundException("There is no interview with id = " + id));
     }
 
     @Override

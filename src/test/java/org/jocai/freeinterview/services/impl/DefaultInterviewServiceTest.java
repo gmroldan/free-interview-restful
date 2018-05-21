@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.repository.InterviewRepository;
 import org.junit.Before;
@@ -50,15 +51,19 @@ public class DefaultInterviewServiceTest {
     }
 
     @Test
-    public void getInteview_SuccessfulOperation_IfInterviewDoesNotExists() throws Exception {
+    public void getInteview_ThrowsNoResultFoundException_IfInterviewDoesNotExists() throws Exception {
         Optional<Interview> optionalInterview = Optional.ofNullable(null);
 
         when(this.interviewRepositoryMock.findById(1L)).thenReturn(optionalInterview);
 
-        Interview result = this.interviewService.getInteview(1L);
-
-        assertEquals(null, result);
-        verify(this.interviewRepositoryMock, times(1)).findById(1L);
+        try {
+            this.interviewService.getInteview(1L);
+            fail();
+        } catch (NoResultFoundException e) {
+            verify(this.interviewRepositoryMock, times(1)).findById(1L);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test

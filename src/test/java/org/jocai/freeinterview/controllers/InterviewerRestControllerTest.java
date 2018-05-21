@@ -1,5 +1,7 @@
 package org.jocai.freeinterview.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -10,6 +12,7 @@ import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewService;
 import org.jocai.freeinterview.services.InterviewerService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = InterviewerRestController.class, secure = false)
 public class InterviewerRestControllerTest {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -137,8 +142,8 @@ public class InterviewerRestControllerTest {
     public void getInterviews_ReturnsInterviewsAndOkStatus_IfTheGivenInterviewerHasInterviews()
             throws Exception {
         Interviewer myFirstInterviewer = new Interviewer(3L, "Homer", "Simpson");
-        Interview myFirstInterview = new Interview(4L, myFirstInterviewer, new Date());
-        Interview mySecondInterview = new Interview(8L, myFirstInterviewer, new Date());
+        Interview myFirstInterview = new Interview(4L, myFirstInterviewer, DATE_FORMAT.parse("2018-02-01 21:45 AM UTC"));
+        Interview mySecondInterview = new Interview(8L, myFirstInterviewer, DATE_FORMAT.parse("2018-02-10 16:45 AM UTC"));
 
         List<Interview> interviewList = Arrays.asList(myFirstInterview, mySecondInterview);
 
@@ -158,12 +163,12 @@ public class InterviewerRestControllerTest {
                 .andExpect(jsonPath("$[0].interviewer.id", is(myFirstInterview.getInterviewer().getId().intValue())))
                 .andExpect(jsonPath("$[0].interviewer.firstName", is(myFirstInterview.getInterviewer().getFirstName())))
                 .andExpect(jsonPath("$[0].interviewer.lastName", is(myFirstInterview.getInterviewer().getLastName())))
-                .andExpect(jsonPath("[0].date", is(myFirstInterview.getDate().getTime())))
+                .andExpect(jsonPath("[0].date", is(DATE_FORMAT.format(myFirstInterview.getDate().getTime()))))
                 .andExpect(jsonPath("$[1].id", is(mySecondInterview.getId().intValue())))
                 .andExpect(jsonPath("$[1].interviewer.id", is(myFirstInterview.getInterviewer().getId().intValue())))
                 .andExpect(jsonPath("$[1].interviewer.firstName", is(myFirstInterview.getInterviewer().getFirstName())))
                 .andExpect(jsonPath("$[1].interviewer.lastName", is(myFirstInterview.getInterviewer().getLastName())))
-                .andExpect(jsonPath("[1].date", is(mySecondInterview.getDate().getTime())));
+                .andExpect(jsonPath("[1].date", is(DATE_FORMAT.format(mySecondInterview.getDate()))));
     }
 
     @Test

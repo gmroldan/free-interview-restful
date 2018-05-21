@@ -1,6 +1,8 @@
 package org.jocai.freeinterview.controllers;
 
 import java.util.List;
+
+import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class InterviewRestController {
     private InterviewService interviewService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity getInterview(@PathVariable Long id) {
+    public ResponseEntity getInterview(@PathVariable Long id) throws NoResultFoundException {
         Interview interview = this.interviewService.getInteview(id);
         HttpStatus httpStatus
                 = interview != null ? HttpStatus.OK : HttpStatus.NO_CONTENT;

@@ -1,5 +1,7 @@
 package org.jocai.freeinterview.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,8 @@ public class Interview {
 
     @ManyToOne
     private Interviewer interviewer;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
     private Date date;
 //    private InterviewDetail detail;
 

@@ -1,11 +1,14 @@
 package org.jocai.freeinterview.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.services.InterviewService;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = InterviewRestController.class, secure = false)
 public class InterviewRestControllerTest {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
     @Autowired
     private MockMvc mockMvc;
 
@@ -45,7 +49,7 @@ public class InterviewRestControllerTest {
     public void getInterview_ReturnsInterviewAndOkStatus_IfInterviewExists() throws Exception {
         Interview myInterview = new Interview();
         myInterview.setId((long) 33);
-        myInterview.setDate(new Date());
+        myInterview.setDate(DATE_FORMAT.parse("2018-02-01 21:45 AM UTC"));
 
         when(this.interviewServiceMock.getInteview(33L)).thenReturn(myInterview);
 
@@ -61,7 +65,7 @@ public class InterviewRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(myInterview.getId().intValue())))
                 .andExpect(jsonPath("$.interviewer", is(myInterview.getInterviewer())))
-                .andExpect(jsonPath("$.date", is(myInterview.getDate().getTime())));
+                .andExpect(jsonPath("$.date", is(DATE_FORMAT.format(myInterview.getDate()))));
     }
 
     @Test
@@ -82,7 +86,7 @@ public class InterviewRestControllerTest {
     public void getAllInterviews_ReturnsInterviewsAndOkStatus_IfInterviewExists() throws Exception {
         Interview myFirstInterview = new Interview();
         myFirstInterview.setId((long) 33);
-        myFirstInterview.setDate(new Date());
+        myFirstInterview.setDate(DATE_FORMAT.parse("2018-02-01 21:45 AM UTC"));
 
         Interview mySecondInterview = new Interview();
         mySecondInterview.setId((long) 34);
@@ -104,10 +108,10 @@ public class InterviewRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$[0].id", is(myFirstInterview.getId().intValue())))
                 .andExpect(jsonPath("$[0].interviewer", is(myFirstInterview.getInterviewer())))
-                .andExpect(jsonPath("$[0].date", is(myFirstInterview.getDate().getTime())))
+                .andExpect(jsonPath("$[0].date", is(DATE_FORMAT.format(myFirstInterview.getDate().getTime()))))
                 .andExpect(jsonPath("$[1].id", is(mySecondInterview.getId().intValue())))
                 .andExpect(jsonPath("$[1].interviewer", is(mySecondInterview.getInterviewer())))
-                .andExpect(jsonPath("$[1].date", is(mySecondInterview.getDate().getTime())));
+                .andExpect(jsonPath("$[1].date", is(DATE_FORMAT.format(mySecondInterview.getDate().getTime()))));
     }
 
     @Test
