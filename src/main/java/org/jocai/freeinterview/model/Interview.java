@@ -22,7 +22,7 @@ public class Interview {
     private Interviewer interviewer;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
-    private Date date;
+    private Date interviewDate;
 //    private InterviewDetail detail;
 
     /**
@@ -34,23 +34,23 @@ public class Interview {
      * Class constructor.
      *
      * @param interviewer
-     * @param date
+     * @param interviewDate
      */
-    public Interview(Interviewer interviewer, Date date) {
+    public Interview(Interviewer interviewer, Date interviewDate) {
         this.interviewer = interviewer;
-        this.date = date;
+        this.interviewDate = interviewDate;
     }
     /**
      * Class constructor.
      *
      * @param id
      * @param interviewer
-     * @param date
+     * @param interviewDate
      */
-    public Interview(Long id, Interviewer interviewer, Date date) {
+    public Interview(Long id, Interviewer interviewer, Date interviewDate) {
         this.id = id;
         this.interviewer = interviewer;
-        this.date = date;
+        this.interviewDate = interviewDate;
     }
 
 
@@ -70,12 +70,12 @@ public class Interview {
         this.interviewer = interviewer;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getInterviewDate() {
+        return interviewDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setInterviewDate(Date interviewDate) {
+        this.interviewDate = interviewDate;
     }
 
     /*public InterviewDetail getDetail() {
