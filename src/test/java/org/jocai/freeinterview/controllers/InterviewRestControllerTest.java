@@ -49,7 +49,7 @@ public class InterviewRestControllerTest {
     public void getInterview_ReturnsInterviewAndOkStatus_IfInterviewExists() throws Exception {
         Interview myInterview = new Interview();
         myInterview.setId((long) 33);
-        myInterview.setDate(DATE_FORMAT.parse("2018-02-01 21:45 AM UTC"));
+        myInterview.setInterviewDate(DATE_FORMAT.parse("2018-02-01 21:45 AM UTC"));
 
         when(this.interviewServiceMock.getInteview(33L)).thenReturn(myInterview);
 
@@ -65,7 +65,7 @@ public class InterviewRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(myInterview.getId().intValue())))
                 .andExpect(jsonPath("$.interviewer", is(myInterview.getInterviewer())))
-                .andExpect(jsonPath("$.date", is(DATE_FORMAT.format(myInterview.getDate()))));
+                .andExpect(jsonPath("$.interviewDate", is(DATE_FORMAT.format(myInterview.getInterviewDate()))));
     }
 
     @Test
@@ -86,11 +86,11 @@ public class InterviewRestControllerTest {
     public void getAllInterviews_ReturnsInterviewsAndOkStatus_IfInterviewExists() throws Exception {
         Interview myFirstInterview = new Interview();
         myFirstInterview.setId((long) 33);
-        myFirstInterview.setDate(DATE_FORMAT.parse("2018-02-01 21:45 AM UTC"));
+        myFirstInterview.setInterviewDate(DATE_FORMAT.parse("2018-02-01 21:45 AM UTC"));
 
         Interview mySecondInterview = new Interview();
         mySecondInterview.setId((long) 34);
-        mySecondInterview.setDate(new Date());
+        mySecondInterview.setInterviewDate(new Date());
 
         List<Interview> interviewList = Arrays.asList(myFirstInterview, mySecondInterview);
 
@@ -108,10 +108,10 @@ public class InterviewRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$[0].id", is(myFirstInterview.getId().intValue())))
                 .andExpect(jsonPath("$[0].interviewer", is(myFirstInterview.getInterviewer())))
-                .andExpect(jsonPath("$[0].date", is(DATE_FORMAT.format(myFirstInterview.getDate().getTime()))))
+                .andExpect(jsonPath("$[0].interviewDate", is(DATE_FORMAT.format(myFirstInterview.getInterviewDate().getTime()))))
                 .andExpect(jsonPath("$[1].id", is(mySecondInterview.getId().intValue())))
                 .andExpect(jsonPath("$[1].interviewer", is(mySecondInterview.getInterviewer())))
-                .andExpect(jsonPath("$[1].date", is(DATE_FORMAT.format(mySecondInterview.getDate().getTime()))));
+                .andExpect(jsonPath("$[1].interviewDate", is(DATE_FORMAT.format(mySecondInterview.getInterviewDate().getTime()))));
     }
 
     @Test

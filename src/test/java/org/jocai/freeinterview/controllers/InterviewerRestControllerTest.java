@@ -163,12 +163,12 @@ public class InterviewerRestControllerTest {
                 .andExpect(jsonPath("$[0].interviewer.id", is(myFirstInterview.getInterviewer().getId().intValue())))
                 .andExpect(jsonPath("$[0].interviewer.firstName", is(myFirstInterview.getInterviewer().getFirstName())))
                 .andExpect(jsonPath("$[0].interviewer.lastName", is(myFirstInterview.getInterviewer().getLastName())))
-                .andExpect(jsonPath("[0].date", is(DATE_FORMAT.format(myFirstInterview.getDate().getTime()))))
+                .andExpect(jsonPath("[0].interviewDate", is(DATE_FORMAT.format(myFirstInterview.getInterviewDate().getTime()))))
                 .andExpect(jsonPath("$[1].id", is(mySecondInterview.getId().intValue())))
                 .andExpect(jsonPath("$[1].interviewer.id", is(myFirstInterview.getInterviewer().getId().intValue())))
                 .andExpect(jsonPath("$[1].interviewer.firstName", is(myFirstInterview.getInterviewer().getFirstName())))
                 .andExpect(jsonPath("$[1].interviewer.lastName", is(myFirstInterview.getInterviewer().getLastName())))
-                .andExpect(jsonPath("[1].date", is(DATE_FORMAT.format(mySecondInterview.getDate()))));
+                .andExpect(jsonPath("[1].interviewDate", is(DATE_FORMAT.format(mySecondInterview.getInterviewDate()))));
     }
 
     @Test
