@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Interview {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
