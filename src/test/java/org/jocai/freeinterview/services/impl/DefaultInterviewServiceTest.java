@@ -82,7 +82,7 @@ public class DefaultInterviewServiceTest {
 
         when(this.interviewRepositoryMock.save(interview)).thenReturn(interview);
 
-        this.interviewService.createNewInterview(interview);
+        this.interviewService.save(interview);
 
         verify(this.interviewRepositoryMock, times(1)).save(interview);
     }
@@ -90,7 +90,7 @@ public class DefaultInterviewServiceTest {
     @Test
     public void createNewInterview_ThrowsIllegalArgumentException_IfInterviewIsNull() throws Exception {
         try {
-            this.interviewService.createNewInterview(null);
+            this.interviewService.save(null);
             fail();
         } catch (IllegalArgumentException e) {
             verify(this.interviewRepositoryMock, times(0)).save(any(Interview.class));

@@ -50,11 +50,11 @@ public class DefaultInterviewService implements InterviewService {
     }
 
     @Override
-    public void createNewInterview(final Interview interview) {
+    public Long save(final Interview interview) {
         Assert.notNull(interview, "The interview cannot be null.");
 
         LOGGER.info("Creating a new interview");
 
-        this.interviewRepository.save(interview);
+        return this.interviewRepository.save(interview).getId();
     }
 }

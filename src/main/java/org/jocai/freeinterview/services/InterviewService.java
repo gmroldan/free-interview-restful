@@ -15,5 +15,5 @@ public interface InterviewService {
 
     List<Interview> getInterviews(Long interviewerId);
 
-    void createNewInterview(Interview interview);
+    Long save(Interview interview);
 }

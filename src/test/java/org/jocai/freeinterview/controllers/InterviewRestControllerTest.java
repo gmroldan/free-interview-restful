@@ -5,12 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jocai.freeinterview.model.Interview;
+import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewService;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,6 +30,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -128,4 +132,26 @@ public class InterviewRestControllerTest {
         resultActions.andExpect(status().isNoContent());
     }
 
+    @Test
+    public void createInterviewer_Ok() throws Exception {
+        Interviewer interviewer = new Interviewer(27L, "Chandler", "Bing");
+        Interview interview = new Interview(interviewer, new Date());
+        ObjectMapper mapper = new ObjectMapper();
+        String interviewJson = mapper.writeValueAsString(interview);
+
+        when(this.interviewServiceMock.save(Mockito.any(Interview.class))).thenReturn(101L);
+
+        RequestBuilder requestBuilder
+                = MockMvcRequestBuilders
+                .post("/interviews")
+                .content(interviewJson)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE);
+
+        ResultActions resultActions = this.mockMvc.perform(requestBuilder);
+
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(redirectedUrl("http://localhost/interviews/101"));
+    }
 }
