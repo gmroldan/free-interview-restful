@@ -37,7 +37,7 @@ dependencies {
 
     // db
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
+    compile('mysql:mysql-connector-java')
 
     // logging
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
@@ -49,6 +49,7 @@ dependencies {
     // testing
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
