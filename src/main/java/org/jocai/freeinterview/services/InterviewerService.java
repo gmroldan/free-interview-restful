@@ -12,4 +12,6 @@ public interface InterviewerService {
     Interviewer getInteviewer(Long id) throws NoResultFoundException, FreeInterviewServiceException;
 
     List<Interviewer> getAllInterviewers();
+
+    Long save(Interviewer interviewer);
 }

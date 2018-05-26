@@ -1,10 +1,7 @@
 package org.jocai.freeinterview.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Gerardo Martín Roldán on 02/06/17.
@@ -12,7 +9,8 @@ import javax.persistence.Id;
 @Entity
 public class Interviewer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "id_generator", sequenceName = "INTERVIEWER_ID_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
     private Long id;
 
     private String firstName;

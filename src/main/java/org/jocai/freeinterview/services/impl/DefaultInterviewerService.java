@@ -50,4 +50,11 @@ public class DefaultInterviewerService implements InterviewerService {
 
         return this.interviewerRepository.findAll();
     }
+
+    @Override
+    public Long save(final Interviewer interviewer) {
+        Assert.notNull(interviewer, "The interviewer cannot be null.");
+
+        return this.interviewerRepository.save(interviewer).getId();
+    }
 }

@@ -1,5 +1,6 @@
 package org.jocai.freeinterview.controllers;
 
+import java.net.URI;
 import java.util.List;
 import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
 import org.jocai.freeinterview.exceptions.NoResultFoundException;
@@ -11,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * Created by Gerardo Martín Roldán on 16/06/git17.
@@ -56,6 +55,17 @@ public class InterviewerRestController {
                 = !CollectionUtils.isEmpty(interviewList) ? HttpStatus.OK : HttpStatus.NO_CONTENT;
 
         return new ResponseEntity(interviewList, httpStatus);
+    }
+
+    @PostMapping
+    public ResponseEntity createInterviewer(@RequestBody Interviewer interviewer) {
+        Long id = this.interviewerService.save(interviewer);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(id).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
 }

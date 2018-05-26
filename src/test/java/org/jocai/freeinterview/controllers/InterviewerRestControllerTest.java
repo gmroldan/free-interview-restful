@@ -4,21 +4,23 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
 import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewService;
 import org.jocai.freeinterview.services.InterviewerService;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -27,9 +29,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.Mockito.when;
 import static org.hamcrest.core.Is.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Created by Gerardo Martín Roldán on 16/06/17.
@@ -183,5 +183,27 @@ public class InterviewerRestControllerTest {
         ResultActions resultActions = this.mockMvc.perform(requestBuilder);
 
         resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void createInterviewer_Ok() throws Exception {
+        Interviewer interviewer = new Interviewer("Chandler", "Bing");
+        ObjectMapper mapper = new ObjectMapper();
+        String interviewerJson = mapper.writeValueAsString(interviewer);
+
+        when(this.interviewerServiceMock.save(Mockito.any(Interviewer.class))).thenReturn(40L);
+
+        RequestBuilder requestBuilder
+                = MockMvcRequestBuilders
+                    .post("/interviewers")
+                    .content(interviewerJson)
+                    .accept(MediaType.APPLICATION_JSON_UTF8)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE);
+
+        ResultActions resultActions = this.mockMvc.perform(requestBuilder);
+
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(redirectedUrl("http://localhost/interviewers/40"));
     }
 }
