@@ -9,6 +9,8 @@ import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewService;
 import org.jocai.freeinterview.services.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -39,12 +41,10 @@ public class InterviewerRestController {
     }
 
     @GetMapping
-    public ResponseEntity getAllInterviewers() {
-        List<Interviewer> interviewerList = this.interviewerService.getAllInterviewers();
+    public ResponseEntity getAllInterviewers(Pageable pageable) {
+        Page<Interviewer> interviewerPage = this.interviewerService.getAllInterviewers(pageable);
 
-        HttpStatus httpStatus = !CollectionUtils.isEmpty(interviewerList) ? HttpStatus.OK : HttpStatus.NO_CONTENT;
-
-        return new ResponseEntity(interviewerList, httpStatus);
+        return ResponseEntity.ok(interviewerPage);
     }
 
     @GetMapping(value = "/{id}/interviews")

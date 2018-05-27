@@ -65,11 +65,9 @@ public class InterviewerRestControllerIntegrationTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].firstName", is("Danila")))
-                .andExpect(jsonPath("$[0].lastName", is("Freeberne")))
-                .andExpect(jsonPath("$[1].id", is(2)))
-                .andExpect(jsonPath("$[1].firstName", is("Maurizia")))
-                .andExpect(jsonPath("$[1].lastName", is("Chifney")));
+                .andExpect(jsonPath("$.pageable.sort.sorted", is(false)))
+                .andExpect(jsonPath("$.pageable.sort.unsorted", is(true)))
+                .andExpect(jsonPath("$.pageable.pageSize", is(20)))
+                .andExpect(jsonPath("$.numberOfElements", is(2)));
     }
 }

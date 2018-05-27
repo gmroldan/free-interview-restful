@@ -1,6 +1,5 @@
 package org.jocai.freeinterview.services.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
@@ -12,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -45,10 +46,12 @@ public class DefaultInterviewerService implements InterviewerService {
     }
 
     @Override
-    public List<Interviewer> getAllInterviewers() {
-        LOGGER.info("Searching all the interviewers");
+    public Page<Interviewer> getAllInterviewers(final Pageable pageable) {
+        Assert.notNull(pageable, "Pageable cannot be null.");
 
-        return this.interviewerRepository.findAll();
+        LOGGER.info("Searching a page of interviewers. Detail: " + pageable.toString());
+
+        return this.interviewerRepository.findAll(pageable);
     }
 
     @Override

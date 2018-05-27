@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.model.Interviewer;
 import org.jocai.freeinterview.services.InterviewService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

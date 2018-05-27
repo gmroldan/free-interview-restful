@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -95,47 +94,6 @@ public class InterviewerRestControllerTest {
         ResultActions resultActions = this.mockMvc.perform(requestBuilder);
 
         resultActions.andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    public void getAllInterviews_ReturnsInterviewersAndOkStatus_IfInterviewersExists() throws Exception {
-        Interviewer myFirstInterviewer = new Interviewer(1L, "Homer", "Simpson");
-        Interviewer mySecondInterviewer = new Interviewer(2L, "Marge", "Simpson");
-
-        List<Interviewer> interviewerList = Arrays.asList(myFirstInterviewer, mySecondInterviewer);
-
-        when(this.interviewerServiceMock.getAllInterviewers()).thenReturn(interviewerList);
-
-        RequestBuilder requestBuilder
-                = MockMvcRequestBuilders
-                .get("/interviewers")
-                .accept(MediaType.APPLICATION_JSON_UTF8);
-
-        ResultActions resultActions = this.mockMvc.perform(requestBuilder);
-
-        resultActions
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$[0].id", is(myFirstInterviewer.getId().intValue())))
-                .andExpect(jsonPath("$[0].firstName", is(myFirstInterviewer.getFirstName())))
-                .andExpect(jsonPath("$[0].lastName", is(myFirstInterviewer.getLastName())))
-                .andExpect(jsonPath("$[1].id", is(mySecondInterviewer.getId().intValue())))
-                .andExpect(jsonPath("$[1].firstName", is(mySecondInterviewer.getFirstName())))
-                .andExpect(jsonPath("$[1].lastName", is(mySecondInterviewer.getLastName())));
-    }
-
-    @Test
-    public void getAllInterviews_ReturnsNOContentStatus_IfThereAreNoInterviewers() throws Exception {
-        when(this.interviewerServiceMock.getAllInterviewers()).thenReturn(Collections.emptyList());
-
-        RequestBuilder requestBuilder
-                = MockMvcRequestBuilders
-                .get("/interviewers")
-                .accept(MediaType.APPLICATION_JSON_UTF8);
-
-        ResultActions resultActions = this.mockMvc.perform(requestBuilder);
-
-        resultActions.andExpect(status().isNoContent());
     }
 
     @Test
