@@ -1,15 +1,15 @@
 package org.jocai.freeinterview.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interview;
 import org.jocai.freeinterview.services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,12 +38,10 @@ public class InterviewRestController {
     }
 
     @GetMapping
-    public ResponseEntity getAllInterviews() {
-        List<Interview> interviewList = this.interviewService.getAllInterviews();
-        HttpStatus httpStatus
-                = CollectionUtils.isEmpty(interviewList) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+    public ResponseEntity getAllInterviews(Pageable pageable) {
+        Page<Interview> interviewPage = this.interviewService.getAllInterviews(pageable);
 
-        return new ResponseEntity(interviewList, httpStatus);
+        return ResponseEntity.ok(interviewPage);
     }
 
     @PostMapping

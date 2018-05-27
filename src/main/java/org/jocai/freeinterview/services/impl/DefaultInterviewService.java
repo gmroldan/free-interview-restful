@@ -10,6 +10,8 @@ import org.jocai.freeinterview.services.InterviewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -35,9 +37,12 @@ public class DefaultInterviewService implements InterviewService {
     }
 
     @Override
-    public List<Interview> getAllInterviews() {
-        LOGGER.info("Searching all the interviews");
-        return this.interviewRepository.findAll();
+    public Page<Interview> getAllInterviews(final Pageable pageable) {
+        Assert.notNull(pageable, "Pageable cannot be null.");
+
+        LOGGER.info("Searching a page of interviews. Detail: " + pageable.toString());
+
+        return this.interviewRepository.findAll(pageable);
     }
 
     @Override
