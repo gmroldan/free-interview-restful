@@ -1,5 +1,5 @@
 -- Interviewers
-insert into interviewer (first_name, last_name) values ('Danila1', 'Freeberne');
+insert into interviewer (first_name, last_name) values ('Danila', 'Freeberne');
 insert into interviewer (first_name, last_name) values ('Maurizia', 'Chifney');
 insert into interviewer (first_name, last_name) values ('Pepita', 'Davydenko');
 insert into interviewer (first_name, last_name) values ('Esta', 'Jakubowicz');
