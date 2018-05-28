@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -21,9 +22,11 @@ public class Interviewer {
     private Long id;
 
     @Size(max = 30)
+    @NotNull
     private String firstName;
 
     @Size(max = 30)
+    @NotNull
     private String lastName;
 
     /**
