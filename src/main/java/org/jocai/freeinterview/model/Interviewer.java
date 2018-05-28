@@ -5,12 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 /**
  * Created by Gerardo Martín Roldán on 02/06/17.
  */
 @Entity
+@Table(uniqueConstraints =
+    @UniqueConstraint(name = "interviewer_uc", columnNames = {"firstName", "lastName"}))
 public class Interviewer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
