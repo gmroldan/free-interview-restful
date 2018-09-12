@@ -2,6 +2,7 @@ package org.jocai.freeinterview.services.impl;
 
 import java.util.Optional;
 
+import org.jocai.freeinterview.exceptions.FreeInterviewDataIntegrityException;
 import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
 import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interviewer;
@@ -56,15 +57,15 @@ public class DefaultInterviewerService implements InterviewerService {
     }
 
     @Override
-    public Long save(final Interviewer interviewer) {
+    public Long save(final Interviewer interviewer) throws FreeInterviewDataIntegrityException {
         Assert.notNull(interviewer, "The interviewer cannot be null.");
 
         Long id = null;
 
         try {
             id = this.interviewerRepository.save(interviewer).getId();
-        } catch (javax.validation.ConstraintViolationException e) {
-            throw new DataIntegrityViolationException("The requested resulted in a violation of a defined integrity constraint", e);
+        } catch (javax.validation.ConstraintViolationException | DataIntegrityViolationException e) {
+            throw new FreeInterviewDataIntegrityException(e);
         }
 
 

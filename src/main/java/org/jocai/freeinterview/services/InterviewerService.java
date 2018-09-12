@@ -1,5 +1,6 @@
 package org.jocai.freeinterview.services;
 
+import org.jocai.freeinterview.exceptions.FreeInterviewDataIntegrityException;
 import org.jocai.freeinterview.exceptions.FreeInterviewServiceException;
 import org.jocai.freeinterview.exceptions.NoResultFoundException;
 import org.jocai.freeinterview.model.Interviewer;
@@ -16,5 +17,5 @@ public interface InterviewerService {
     Page<Interviewer> getAllInterviewers(Pageable pageable);
 
     @Transactional
-    Long save(Interviewer interviewer) throws FreeInterviewServiceException;
+    Long save(Interviewer interviewer) throws FreeInterviewDataIntegrityException;
 }
