@@ -1,6 +1,7 @@
 package org.jocai.freeinterview.exceptions;
 
 import org.jocai.freeinterview.controllers.advice.ErrorResponseTemplate;
+import org.jocai.freeinterview.utils.Error;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -44,22 +45,32 @@ public class FreeInterviewDataIntegrityException extends RuntimeException {
      *
      * @return
      */
-    private List<String> getErrors() {
+    private List<Error> getErrors() {
         final RuntimeException ex = (RuntimeException) this.getCause();
-        final List<String> errors = new ArrayList<>();
+        final List<Error> errors = new ArrayList<>();
 
         if (ex instanceof javax.validation.ConstraintViolationException) {
             Set<ConstraintViolation<?>> violationSet
                     = ((javax.validation.ConstraintViolationException) ex).getConstraintViolations();
 
             for (ConstraintViolation<?> violation : violationSet) {
-                errors.add(violation.getMessage());
+                if ("First name cannot be null.".equals(violation.getMessage())) {
+                    errors.add(Error.INTERVIEWER_INVALID_FIRST_NAME);
+                } else if ("Last name cannot be null.".equals(violation.getMessage())) {
+                    errors.add(Error.INTERVIEWER_INVALID_LAST_NAME);
+                } else {
+                    errors.add(Error.UNKNOWN_ERROR);
+                }
             }
         } else if (ex instanceof DataIntegrityViolationException) {
             org.hibernate.exception.ConstraintViolationException cause
                     = (org.hibernate.exception.ConstraintViolationException) ex.getCause();
 
-            errors.add(cause.getSQLException().getMessage());
+            if ("INTERVIEWER_UC".equals(cause.getConstraintName())) {
+                errors.add(Error.INTERVIEWER_ALREADY_EXISTS);
+            } else {
+                errors.add(Error.UNKNOWN_ERROR);
+            }
         }
 
         return errors;
