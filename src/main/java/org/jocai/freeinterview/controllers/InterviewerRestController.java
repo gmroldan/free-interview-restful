@@ -58,7 +58,8 @@ public class InterviewerRestController {
     }
 
     @PostMapping
-    public ResponseEntity createInterviewer(@RequestBody Interviewer interviewer) {
+    public ResponseEntity createInterviewer(@RequestBody Interviewer interviewer)
+            throws FreeInterviewServiceException {
         Long id = this.interviewerService.save(interviewer);
 
         URI location = ServletUriComponentsBuilder

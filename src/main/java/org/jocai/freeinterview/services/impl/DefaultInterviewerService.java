@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,15 @@ public class DefaultInterviewerService implements InterviewerService {
     public Long save(final Interviewer interviewer) {
         Assert.notNull(interviewer, "The interviewer cannot be null.");
 
-        return this.interviewerRepository.save(interviewer).getId();
+        Long id = null;
+
+        try {
+            id = this.interviewerRepository.save(interviewer).getId();
+        } catch (javax.validation.ConstraintViolationException e) {
+            throw new DataIntegrityViolationException("The requested resulted in a violation of a defined integrity constraint", e);
+        }
+
+
+        return id;
     }
 }

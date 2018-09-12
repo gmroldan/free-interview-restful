@@ -22,11 +22,11 @@ public class Interviewer {
     private Long id;
 
     @Size(max = 30)
-    @NotNull
+    @NotNull(message = "First name cannot be null.")
     private String firstName;
 
     @Size(max = 30)
-    @NotNull
+    @NotNull(message = "Last name cannot be null.")
     private String lastName;
 
     /**
